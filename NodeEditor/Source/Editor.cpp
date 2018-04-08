@@ -1272,8 +1272,8 @@ void ed::EditorContext::RestoreNodeState(Node* node)
 		return;
 
 	// Load state from config (if possible)
-	if (!NodeSettings::Parse(m_Config.LoadNode(node->m_ID), *settings))
-		return;
+	//if (!NodeSettings::Parse(m_Config.LoadNode(node->m_ID), *settings))
+	//	return;
 
 	auto diff = to_point(settings->m_Location) - node->m_Bounds.location;
 
@@ -1583,7 +1583,7 @@ ed::Link* ed::EditorContext::GetLink(int id)
 
 void ed::EditorContext::LoadSettings()
 {
-	ed::Settings::Parse(m_Config.Load(), m_Settings);
+	//ed::Settings::Parse(m_Config.Load(), m_Settings);
 
 	m_NavigateAction.m_Scroll = m_Settings.m_ViewScroll;
 	m_NavigateAction.m_Zoom   = m_Settings.m_ViewZoom;
@@ -1603,7 +1603,7 @@ void ed::EditorContext::SaveSettings()
 
 		if (!node->m_RestoreState && settings->m_IsDirty && m_Config.SaveNodeSettings)
 		{
-			if (m_Config.SaveNode(node->m_ID, json::value(settings->Serialize()).serialize(), settings->m_DirtyReason))
+			//if (m_Config.SaveNode(node->m_ID, json::value(settings->Serialize()).serialize(), settings->m_DirtyReason))
 				settings->ClearDirty();
 		}
 	}
@@ -1615,8 +1615,8 @@ void ed::EditorContext::SaveSettings()
 	m_Settings.m_ViewScroll = m_NavigateAction.m_Scroll;
 	m_Settings.m_ViewZoom   = m_NavigateAction.m_Zoom;
 
-	if (m_Config.Save(m_Settings.Serialize(), m_Settings.m_DirtyReason))
-		m_Settings.ClearDirty();
+	//if (m_Config.Save(m_Settings.Serialize(), m_Settings.m_DirtyReason))
+	//	m_Settings.ClearDirty();
 
 	m_Config.EndSave();
 }
@@ -1979,6 +1979,7 @@ void ed::NodeSettings::MakeDirty(SaveReasonFlags reason)
 	m_DirtyReason = m_DirtyReason | reason;
 }
 
+/*
 ed::json::object ed::NodeSettings::Serialize()
 {
 	auto serializeVector = [](ImVec2 p) -> json::object
@@ -2041,7 +2042,7 @@ bool ed::NodeSettings::Parse(const json::value& data, NodeSettings& result)
 		return false;
 
 	return true;
-}
+}*/
 
 
 
@@ -2098,6 +2099,7 @@ void ed::Settings::MakeDirty(SaveReasonFlags reason, Node* node)
 	}
 }
 
+/*
 std::string ed::Settings::Serialize()
 {
 	json::array selection;
@@ -2162,7 +2164,7 @@ bool ed::Settings::Parse(const char* data, const char* dataEnd, Settings& settin
 	settings = std::move(result);
 
 	return true;
-}
+}*/
 
 
 
@@ -4939,20 +4941,7 @@ std::string ed::Config::Load()
 			LoadSettings(const_cast<char*>(data.data()), UserPointer);
 		}
 	}
-	else if (SettingsFile)
-	{
-		std::ifstream file(SettingsFile);
-		if (file)
-		{
-			file.seekg(0, std::ios_base::end);
-			auto size = static_cast<size_t>(file.tellg());
-			file.seekg(0, std::ios_base::beg);
 
-			data.reserve(size);
-
-			std::copy(std::istream_iterator<char>(file), std::istream_iterator<char>(), std::back_inserter(data));
-		}
-	}
 
 	return data;
 }

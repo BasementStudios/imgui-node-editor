@@ -15,7 +15,6 @@
 # include "Shared/Math2D.h"
 # include "NodeEditor.h"
 # define PICOJSON_USE_LOCALE 0
-# include "picojson.h"
 # include <vector>
 
 
@@ -27,7 +26,6 @@ namespace Detail {
 
 //------------------------------------------------------------------------------
 namespace ed = ax::NodeEditor::Detail;
-namespace json = picojson;
 
 
 //------------------------------------------------------------------------------
@@ -304,11 +302,11 @@ struct NodeSettings
     void ClearDirty();
     void MakeDirty(SaveReasonFlags reason);
 
-    json::object Serialize();
+   // json::object Serialize();
 
-    static bool Parse(const std::string& string, NodeSettings& settings) { return Parse(string.data(), string.data() + string.size(), settings); }
-    static bool Parse(const char* data, const char* dataEnd, NodeSettings& settings);
-    static bool Parse(const json::value& data, NodeSettings& result);
+  //  static bool Parse(const std::string& string, NodeSettings& settings) { return Parse(string.data(), string.data() + string.size(), settings); }
+  //  static bool Parse(const char* data, const char* dataEnd, NodeSettings& settings);
+   // static bool Parse(const json::value& data, NodeSettings& result);
 };
 
 struct Settings
@@ -329,10 +327,10 @@ struct Settings
     void ClearDirty(Node* node = nullptr);
     void MakeDirty(SaveReasonFlags reason, Node* node = nullptr);
 
-    std::string Serialize();
+    //std::string Serialize();
 
-    static bool Parse(const std::string& string, Settings& settings) { return Parse(string.data(), string.data() + string.size(), settings); }
-    static bool Parse(const char* data, const char* dataEnd, Settings& settings);
+   // static bool Parse(const std::string& string, Settings& settings) { return Parse(string.data(), string.data() + string.size(), settings); }
+   // static bool Parse(const char* data, const char* dataEnd, Settings& settings);
 };
 
 struct Control
